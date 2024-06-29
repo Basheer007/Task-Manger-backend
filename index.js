@@ -1,28 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
 const getRoute = require("./routes/getRoute");
 const postRoute = require("./routes/postRoute");
 const updateRoute = require("./routes/updateRoute");
 const deleteRoute = require("./routes/deleteRoute");
 const findById = require("./routes/findbyidRoute");
+require("dotenv").config();
 const cors = require("cors");
-
 const app = express();
 app.use(express.json());
 app.use(cors());
-const uri = process.env.MONGODB_URI;
+
 async function connectDB() {
+  const uri = process.env.MONGO_URI;
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("connected to MongoDB");
+    const result = await mongoose.connect(uri);
+    console.log(`mongodb connected..`);
   } catch (error) {
     console.log(error);
   }
 }
+
 connectDB();
 app.use(getRoute);
 app.use(postRoute);

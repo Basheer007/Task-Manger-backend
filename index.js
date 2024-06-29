@@ -11,9 +11,13 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
+const uri = process.env.MONGODB_URI;
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("connected to MongoDB");
   } catch (error) {
     console.log(error);
